@@ -22,6 +22,11 @@ import java.util.HashSet;
  *
  * @author johnr
  */
+
+// Creating an Application allows me to skip putting all of this servlet 
+// configuration stuff in my web.xml.
+// Apache Tomcat implements a Servlet 3.0 container, so a web.xml is not
+// required (although, I have one anyway but for other reasons)
 @ApplicationPath("/api")
 public class NoteApp extends Application {
 

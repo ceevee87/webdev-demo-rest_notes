@@ -17,4 +17,20 @@ public class Note {
         this._id = -1;
         this._body = "";
     }
+
+    public int getId() {
+        return _id;
+    }
+
+    public String getBody() {
+        return _body;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+
+    public void setBody(String body) {
+        this._body = body;
+    }    
 }

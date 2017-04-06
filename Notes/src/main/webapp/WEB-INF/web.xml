@@ -2,7 +2,8 @@
 <!-- This web.xml file is not required when using Servlet 3.0 container, 
      see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html#d4e194 -->
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <description>implement GET for all notes.</description>
+
+    <description>Jersey/Java implementation for a simple Note DB</description>
     <display-name>Jersey Note Taker</display-name>
     <session-config>
         <session-timeout>
