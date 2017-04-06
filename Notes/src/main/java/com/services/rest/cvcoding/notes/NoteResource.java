@@ -22,11 +22,13 @@ import java.util.logging.Logger;
 // jersey-bundle 
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.Response;
 
 // jackson-databind
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -78,6 +80,25 @@ public class NoteResource {
         };
     }
     
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public StreamingOutput getNoteById(@PathParam("id") int id) {
+        final Note resNote;
+        
+        resNote = noteDB.get(id);
+        if (resNote == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+           
+        return new StreamingOutput() {
+            @Override
+            public void write(OutputStream out) throws IOException, 
+                        WebApplicationException {
+                writeNotes(out, resNote);        
+            }
+        };
+    }
+
     // helper routine for reading in JSON spec (POST) for a single note.
     private Note readNote(InputStream is) {
         Note newNote = null;
