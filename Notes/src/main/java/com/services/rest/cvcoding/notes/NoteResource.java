@@ -11,6 +11,8 @@ import com.models.object.cvcoding.Note;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
@@ -43,12 +45,40 @@ public class NoteResource {
         this.noteDB = new ConcurrentHashMap<>();
     }
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello World!!\n";
+    // helper methods for writing out note entities in JSON
+    // format. the methods below handle writing out a single
+    // Note or an array of Notes.
+    // we always return an array even if there is a single item.
+    private void writeNotes(OutputStream out, List<Note> notes) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(out, notes); 
     }
     
+    private void writeNotes(OutputStream out, Note note) throws IOException {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note);
+        writeNotes(out, notes);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public StreamingOutput hello() {
+        final List<Note> allNotes;
+        allNotes = new ArrayList<>();
+        
+        for (Integer kk : noteDB.keySet()) {
+            allNotes.add(noteDB.get(kk));
+        }
+        return new StreamingOutput() {
+            @Override
+            public void write(OutputStream out) throws IOException, 
+                        WebApplicationException {
+                writeNotes(out, allNotes);        
+            }
+        };
+    }
+    
+    // helper routine for reading in JSON spec (POST) for a single note.
     private Note readNote(InputStream is) {
         Note newNote = null;
         ObjectMapper mapper = new ObjectMapper();
@@ -81,5 +111,5 @@ public class NoteResource {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(out, newNote); 
             }
         };
-    }
+    }    
 }
