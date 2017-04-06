@@ -29,6 +29,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.DELETE;
 
 // jackson-databind
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,7 +65,7 @@ public class NoteResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public StreamingOutput hello() {
+    public StreamingOutput getAllNotes() {
         final List<Note> allNotes;
         allNotes = new ArrayList<>();
         
@@ -85,7 +86,7 @@ public class NoteResource {
     @Produces(MediaType.APPLICATION_JSON)
     public StreamingOutput getNoteById(@PathParam("id") int id) {
         final Note resNote;
-        
+
         resNote = noteDB.get(id);
         if (resNote == null)
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -118,7 +119,7 @@ public class NoteResource {
     @Produces(MediaType.APPLICATION_JSON)
     public StreamingOutput postNote(InputStream is) {
         final Note newNote;
-        
+
         newNote = readNote(is);
         if (newNote != null) {
             newNote.setId(idCounter.incrementAndGet());
@@ -132,5 +133,41 @@ public class NoteResource {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(out, newNote); 
             }
         };
-    }    
+    }
+    
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public StreamingOutput removeAllNotes() {
+        final List<Note> allNotes = new ArrayList<>();
+        
+        for (Integer kk : noteDB.keySet()) {
+            allNotes.add(noteDB.get(kk));
+            noteDB.remove(kk);
+        }
+        
+        return new StreamingOutput() {
+            @Override
+            public void write(OutputStream out) throws IOException, 
+                            WebApplicationException {
+                writeNotes(out, allNotes);
+            }
+        };
+    }
+    
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public StreamingOutput removeNoteById(@PathParam("id") int id) {      
+        final Note delNote = noteDB.get(id);
+        if (delNote != null)
+            noteDB.remove(id);
+
+        return new StreamingOutput() {
+            @Override
+            public void write(OutputStream out) throws IOException, 
+                        WebApplicationException {
+                writeNotes(out, delNote);
+            }      
+        };
+    }
 }

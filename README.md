@@ -11,9 +11,10 @@ Basic note taker application written using NetBeans.
 This demonstrates the following technologies
   - RESTful JSON API using java & jersey
   - build and dependencies managed by Maven
-  - This applicationwritten in Java+Jersey with JSON interface to a simple web front-end.
   - items left to do:
-    * add in additional REST routes (delete, get with query param)
+    * add in additional REST routes (get with query param, for example)
+    * improve error handling
+    * refactor wide-spread usage of StreamingOutput code
     * add in a HTML front-end
     * JUNIT validation
 
