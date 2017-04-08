@@ -18,6 +18,24 @@
         <welcome-file>default.htm</welcome-file>
         <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
-    <!--    I'll add in the permission stuff later to enable GET/POST/PUT/...
-    operations.-->
+
+    <!-- The filter items below enable this Tomcat application to be queried
+    by a web page via AJAX. If you don't use these filters then you're 
+    going to get an error message as so:-->
+    <!--Cross-Origin Request Blocked: The Same Origin Policy disallows reading 
+    the remote resource at http://localhost:8080/Note/api/notes. 
+    (Reason: CORS header ‘Access-Control-Allow-Origin’ missing).-->
+    <filter>
+      <filter-name>CorsFilter</filter-name>
+      <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+      <init-param>
+        <param-name>cors.allowed.methods</param-name>
+        <param-value>GET,POST,PUT,DELETE</param-value>
+      </init-param>
+    </filter>
+    <filter-mapping>
+      <filter-name>CorsFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
