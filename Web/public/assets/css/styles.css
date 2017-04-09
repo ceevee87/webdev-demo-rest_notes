@@ -1,3 +1,10 @@
 body {
     padding-top: 80px;
+    font-family: 'Ubuntu', sans-serif;  
+}
+
+.edit-task-form {
+  display: none;
+  padding-top: 15px;
+  margin-bottom: 5px;
 }

@@ -13,21 +13,59 @@ function createNewListItemHTML(task) {
 }
 
 function createNewRowItemHTML(task) {
+    var formAction = 'http://localhost:8080/Note/api/notes/'+task.id
+    var editText = "\"" + task.body + "\"";
     var htmlStr = 
         "<tr class=\"task-row\">\
             <th scope=\"row\">"+task.id+"</th>\
-            <td>"+task.body+"</td>\
-            <td style=\"width:20%\">\
+            <td><span>"+task.body+"</span>\
                 <div class=\"pull-right\"> \
-                    <button class=\"btn btn-sm btn-warning edit-task-button\">Edit</button> \
-                    <button class=\"btn btn-sm btn-danger del-task-button\">Delete</button> \
+                    <button class=\"btn btn-xs btn-warning edit-task-button\">Edit</button> \
+                    <button class=\"btn btn-xs btn-danger del-task-button\">Delete</button> \
                 </div> \
+                <form class=\"edit-task-form\" method=\"PUT\" action="+formAction+">  \
+                    <div class=\"form-group\" > \
+                        <input type=\"text\" value="+editText+ " name=\"todo[text]\" \
+                             type=\"submit\" class=\"form-control\"> \
+                    </div> \
+                    <button class=\"btn btn-sm btn-primary\">Update Item</button> \
+                </form> \
+                <div class=\"clearfix\"></div> \
             </td>\
         </tr>"
     return htmlStr;
 }
 
+$('.table').on('click','.edit-task-button', function(event) {
+    var editForm = $(this).parent().siblings('form.edit-task-form').toggle();
+});
+
+
+// EDIT a single task item
+$('.table').on('submit','.edit-task-form', function(event) {
+    event.preventDefault();
+    var editForm = $(this).toggle();
+    var taskCell = $(this).parent().find('span');
+    var formData = { body : $(this).find('input').val() };
+    var formAction = $(this).attr('action');
+    var formMethod = $(this).attr('method');
+    $.ajax({
+        url: formAction,
+        data: JSON.stringify(formData),
+        type: formMethod,
+        taskCell : taskCell,
+        contentType : 'application/json',
+        dataType: 'json',        
+        success: function(data) {
+            console.log("Response from AJAX PUT request:" + JSON.stringify(data,null,'\t'));
+            taskCell.text(data.body);
+        }
+    });
+});
+
+// DELETE item
 $('.table').on('click','.del-task-button', function(event) {
+    event.preventDefault();
     var taskRowObj = $(this).parents('tr')
     var taskIdCell = taskRowObj.find('th');
     var url = 'http://localhost:8080/Note/api/notes/' + taskIdCell.text(); 
@@ -47,6 +85,8 @@ $('.table').on('click','.del-task-button', function(event) {
     taskRowObj.remove();
 });
 
+// GET : update table to contain all tasks currently stored on 
+//       the server side.
 $('#notetaker_get').click(function(event){
     console.log("Clicked the button.");
     $.ajax({ 
@@ -69,6 +109,7 @@ $('#notetaker_get').click(function(event){
     });
 });
 
+// DELETE all tasks in the table.
 $('#notetaker_delete').click(function(event){
     console.log("Clicked the button.");
     $.ajax({ 
@@ -76,7 +117,7 @@ $('#notetaker_delete').click(function(event){
         type: 'DELETE', 
         success: function(data) { 
             console.log(JSON.stringify(data,null,'\t'))
-                $('.note-list-group').empty();
+                $('table.table').find('.task-row').remove();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             console.log("AJAX DELETE didn't work!!!:" + 
@@ -87,6 +128,7 @@ $('#notetaker_delete').click(function(event){
     });
 });
 
+// CREATE a new task
 $('#newitemform').submit(function(event){
     event.preventDefault();
     var formData = $(this).serialize();
