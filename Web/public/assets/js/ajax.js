@@ -4,14 +4,14 @@ function createNewRowItemHTML(note) {
     var formAction = 'http://localhost:8080/Note/api/notes/'+note.id
     var editText = "\"" + note.body + "\"";
     var htmlStr = 
-        "<tr class=\"task-row\">\
+        "<tr class=\"note-row\">\
             <th scope=\"row\">"+note.id+"</th>\
             <td><span>"+note.body+"</span>\
                 <div class=\"pull-right\"> \
-                    <button class=\"btn btn-xs btn-warning edit-task-button\">Edit</button> \
-                    <button class=\"btn btn-xs btn-danger del-task-button\">Delete</button> \
+                    <button class=\"btn btn-xs btn-warning edit-note-button\">Edit</button> \
+                    <button class=\"btn btn-xs btn-danger del-note-button\">Delete</button> \
                 </div> \
-                <form class=\"edit-task-form\" method=\"PUT\" action="+formAction+">  \
+                <form class=\"edit-note-form\" method=\"PUT\" action="+formAction+">  \
                     <button class=\"btn btn-sm btn-primary\">Update Item</button> \
                     <div class=\"form-group\" > \
                         <input type=\"text\" value="+editText+ " name=\"todo[text]\" \
@@ -24,13 +24,13 @@ function createNewRowItemHTML(note) {
     return htmlStr;
 }
 
-$('.table').on('click','.edit-task-button', function(event) {
-    var editForm = $(this).parent().siblings('form.edit-task-form').toggle();
+$('.table').on('click','.edit-note-button', function(event) {
+    var editForm = $(this).parent().siblings('form.edit-note-form').toggle();
 });
 
 
 // EDIT a single note item
-$('.table').on('submit','.edit-task-form', function(event) {
+$('.table').on('submit','.edit-note-form', function(event) {
     event.preventDefault();
     var editForm = $(this).toggle();
     var noteCell = $(this).parent().find('span');
@@ -52,7 +52,7 @@ $('.table').on('submit','.edit-task-form', function(event) {
 });
 
 // DELETE item
-$('.table').on('click','.del-task-button', function(event) {
+$('.table').on('click','.del-note-button', function(event) {
     event.preventDefault();
     var noteRowObj = $(this).parents('tr')
     var noteIdCell = noteRowObj.find('th');
@@ -82,7 +82,7 @@ $('#notetaker_get').click(function(event){
         type: 'GET', 
         success: function(data) { 
             console.log(JSON.stringify(data,null,'\t')) 
-            $('table.table').find('.task-row').remove();
+            $('table.table').find('.note-row').remove();
             data.forEach(function(note){
                 $('table.table').append(createNewRowItemHTML(note));            
             });
@@ -104,7 +104,7 @@ $('#notetaker_delete').click(function(event){
         type: 'DELETE', 
         success: function(data) { 
             console.log(JSON.stringify(data,null,'\t'))
-                $('table.table').find('.task-row').remove();
+                $('table.table').find('.note-row').remove();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             console.log("AJAX DELETE didn't work!!!:" + 
