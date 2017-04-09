@@ -13,4 +13,4 @@ hs_err_pid*
 /target/
 /Notes/target/
 context.xml
-
+commit.log

@@ -1,6 +1,6 @@
 # webdev-demo-rest_notes
 
-6 April 2017 
+9 April 2017 
 
 << This repo is under current development and this README is subject to change.>>
 
@@ -10,13 +10,17 @@ Basic note taker application written using NetBeans.
 
 This demonstrates the following technologies
   - RESTful JSON API using java & jersey
+  - front end interface to RESTful service using HTML.
+  - note editing & deleting from front end done using jQuery & AJAX.
+  - deployment and undeployment to Apache Tomacat using maven plugin
   - build and dependencies managed by Maven
   - items left to do:
     * add in additional REST routes (get with query param, for example)
     * improve error handling
+    * add in apache logging using log4j or equivalent
     * refactor wide-spread usage of StreamingOutput code
-    * add in a HTML front-end
     * JUNIT validation
+    * write better installation instructions
 
 Installation
 To build:
