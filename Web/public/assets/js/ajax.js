@@ -24,11 +24,11 @@ function createNewRowItemHTML(task) {
                     <button class=\"btn btn-xs btn-danger del-task-button\">Delete</button> \
                 </div> \
                 <form class=\"edit-task-form\" method=\"PUT\" action="+formAction+">  \
+                    <button class=\"btn btn-sm btn-primary\">Update Item</button> \
                     <div class=\"form-group\" > \
                         <input type=\"text\" value="+editText+ " name=\"todo[text]\" \
                              type=\"submit\" class=\"form-control\"> \
                     </div> \
-                    <button class=\"btn btn-sm btn-primary\">Update Item</button> \
                 </form> \
                 <div class=\"clearfix\"></div> \
             </td>\

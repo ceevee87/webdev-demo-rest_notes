@@ -8,3 +8,18 @@ body {
   padding-top: 15px;
   margin-bottom: 5px;
 }
+
+.edit-task-form button {
+    float: right;
+}
+
+.form-group {
+    white-space: nowrap;
+    overflow: hidden; 
+    padding-right: .5em;
+    height : 31px;
+}
+
+.form-group input {
+    height : 31px;
+}
