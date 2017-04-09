@@ -1,24 +1,12 @@
 console.log("Oh hell.");
 
-function createNewListItemHTML(task) {
-    var htmlStr = 
-    "<li class=\"list-group-item\"> \
-        <span class=\"lead\">" + task + "</span> \
-        <div class=\"pull-right\"> \
-            <button class=\"btn btn-sm btn-warning edit-task-button\">Edit</button> \
-            <button class=\"btn btn-sm btn-danger del-task-button\">Delete</button> \
-        </div> \
-    </li>";
-    return htmlStr;
-}
-
-function createNewRowItemHTML(task) {
-    var formAction = 'http://localhost:8080/Note/api/notes/'+task.id
-    var editText = "\"" + task.body + "\"";
+function createNewRowItemHTML(note) {
+    var formAction = 'http://localhost:8080/Note/api/notes/'+note.id
+    var editText = "\"" + note.body + "\"";
     var htmlStr = 
         "<tr class=\"task-row\">\
-            <th scope=\"row\">"+task.id+"</th>\
-            <td><span>"+task.body+"</span>\
+            <th scope=\"row\">"+note.id+"</th>\
+            <td><span>"+note.body+"</span>\
                 <div class=\"pull-right\"> \
                     <button class=\"btn btn-xs btn-warning edit-task-button\">Edit</button> \
                     <button class=\"btn btn-xs btn-danger del-task-button\">Delete</button> \
@@ -41,11 +29,11 @@ $('.table').on('click','.edit-task-button', function(event) {
 });
 
 
-// EDIT a single task item
+// EDIT a single note item
 $('.table').on('submit','.edit-task-form', function(event) {
     event.preventDefault();
     var editForm = $(this).toggle();
-    var taskCell = $(this).parent().find('span');
+    var noteCell = $(this).parent().find('span');
     var formData = { body : $(this).find('input').val() };
     var formAction = $(this).attr('action');
     var formMethod = $(this).attr('method');
@@ -53,12 +41,12 @@ $('.table').on('submit','.edit-task-form', function(event) {
         url: formAction,
         data: JSON.stringify(formData),
         type: formMethod,
-        taskCell : taskCell,
+        noteCell : noteCell,
         contentType : 'application/json',
         dataType: 'json',        
         success: function(data) {
             console.log("Response from AJAX PUT request:" + JSON.stringify(data,null,'\t'));
-            taskCell.text(data.body);
+            noteCell.text(data.body);
         }
     });
 });
@@ -66,9 +54,9 @@ $('.table').on('submit','.edit-task-form', function(event) {
 // DELETE item
 $('.table').on('click','.del-task-button', function(event) {
     event.preventDefault();
-    var taskRowObj = $(this).parents('tr')
-    var taskIdCell = taskRowObj.find('th');
-    var url = 'http://localhost:8080/Note/api/notes/' + taskIdCell.text(); 
+    var noteRowObj = $(this).parents('tr')
+    var noteIdCell = noteRowObj.find('th');
+    var url = 'http://localhost:8080/Note/api/notes/' + noteIdCell.text(); 
     $.ajax({ 
         url: url, 
         type: 'DELETE', 
@@ -82,10 +70,10 @@ $('.table').on('click','.del-task-button', function(event) {
             console.log("Error: " + errorThrown); 
         } 
     });
-    taskRowObj.remove();
+    noteRowObj.remove();
 });
 
-// GET : update table to contain all tasks currently stored on 
+// GET : update table to contain all notes currently stored on 
 //       the server side.
 $('#notetaker_get').click(function(event){
     console.log("Clicked the button.");
@@ -95,9 +83,8 @@ $('#notetaker_get').click(function(event){
         success: function(data) { 
             console.log(JSON.stringify(data,null,'\t')) 
             $('table.table').find('.task-row').remove();
-            data.forEach(function(task){
-                $('table.table').append(createNewRowItemHTML(task));            
-                // $('.note-list-group').append(createNewListItemHTML(task.body));
+            data.forEach(function(note){
+                $('table.table').append(createNewRowItemHTML(note));            
             });
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -109,7 +96,7 @@ $('#notetaker_get').click(function(event){
     });
 });
 
-// DELETE all tasks in the table.
+// DELETE all notes in the table.
 $('#notetaker_delete').click(function(event){
     console.log("Clicked the button.");
     $.ajax({ 
@@ -128,13 +115,13 @@ $('#notetaker_delete').click(function(event){
     });
 });
 
-// CREATE a new task
+// CREATE a new note
 $('#newitemform').submit(function(event){
     event.preventDefault();
     var formData = $(this).serialize();
-    var taskText = $(this).find('.form-control').val();
+    var noteText = $(this).find('.form-control').val();
     var postData = JSON.stringify({
-        body : taskText
+        body : noteText
     });
 
     console.log("AJAX post request data: " + JSON.stringify(postData,null,'\t'));
@@ -149,7 +136,6 @@ $('#newitemform').submit(function(event){
             console.log("status:" + status); 
             console.log(JSON.stringify(xhr,null,'\t'));
             $('table.table').append(createNewRowItemHTML(data));
-            // $('.note-list-group').append(createNewListItemHTML(data.body));
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             console.log("AJAX POST didn't work!!! " + 
