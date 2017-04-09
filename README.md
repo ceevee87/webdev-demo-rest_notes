@@ -18,7 +18,6 @@ This demonstrates the following technologies
     * add in additional REST routes (get with query param, for example)
     * improve error handling
     * add in apache logging using log4j or equivalent
-    * refactor wide-spread usage of StreamingOutput code
     * JUNIT validation
     * write better installation instructions
 
