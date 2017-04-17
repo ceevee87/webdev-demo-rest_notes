@@ -8,10 +8,13 @@ OVERVIEW
 
 This is a basic back-end application with a RESTful JSON interface. The application
 manages note entities with the following JSON model:
+
+```
 {
    id: <unique integer>,
    body: <text body>
 }
+```
 
 The back-end interfaces with unix curl to accept/exectute the following RESTful
 commands:
@@ -22,12 +25,14 @@ commands:
   - DELETE
   - DELETE/{id}
 
-Examples
+Examples from Linux prompt:
 
+```
 % curl -i -H "Content-Type: application/json" -X GET http://localhost:8080/Note/api/notes
 % curl -i -H "Content-Type: application/json" -X POST -d '{"body" : "Pick up biscuits."}' http://localhost:8080/Note/api/notes
 % curl -i -H "Content-Type: application/json" -X PUT -d '{"body" : "Mow the lawn."}' http://localhost:8080/Note/api/notes/10
 % curl -i -H "Content-Type: application/json" -X DELETE http://localhost:8080/Note/api/notes/3
+```
 
 This demonstrates the following technologies
   - RESTful JSON API using java & jersey
