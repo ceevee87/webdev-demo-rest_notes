@@ -4,7 +4,7 @@
 
 << This repo is under current development and this README is subject to change.>>
 
-OVERVIEW
+## Overview
 
 This is a basic back-end application with a RESTful JSON interface. The application
 manages note entities with the following JSON model:
@@ -34,21 +34,29 @@ Examples from Linux prompt:
 % curl -i -H "Content-Type: application/json" -X DELETE http://localhost:8080/Note/api/notes/3
 ```
 
-This demonstrates the following technologies
+In addtion to the unix command line prompt this project includes a web front 
+end. The web front end displays a table of all the notes along with their
+unique IDs. A simple text box input provides the user the ability to add a new note.
+
+Users can delete or modify single notes from within each table row.
+
+## Technologies
+This project demonstrates the following technologies
   - RESTful JSON API using java & jersey
-  - Front end interface to RESTful service using HTML/JS
+  - Front end interface to RESTful service using HTML/CSS/JS
     * Bootstrap styling
     * Google fonts
   - Interaction with backend web app via jQuery & AJAX.
-  - Build and dependencies managed by Maven
+  - Maven build and dependency management
     * Deployment and undeployment to Apache Tomacat via Maven
-  - items left to do:
-    * improve error handling
-    * add in apache logging using log4j or equivalent
-    * JUNIT validation
-    * write better installation instructions
 
-INSTALLATION
+## Items left to do:
+  - improve error handling
+  - add in apache logging using log4j or equivalent
+  - JUNIT validation
+  - write better installation instructions
+
+## Installation
 
 To build & deploy to Tomcat:
    mvn tomcat7:undeploy clean package tomcat7:deploy
@@ -56,6 +64,6 @@ To build & deploy to Tomcat:
 This application is run as a WAR deployed on Apached Tomcat. The URL for get/post operations
 is http://localhost:8080/Note/api/notes/
 
-Validation
+## Validation
 Validation was done using Postman.
 
