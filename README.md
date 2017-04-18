@@ -67,3 +67,7 @@ is http://localhost:8080/Note/api/notes/
 ## Validation
 Validation was done using Postman.
 
+## IDE
+The java portion of this project was developed in NetBeans. The Web portion
+was developed using VS Code.
+

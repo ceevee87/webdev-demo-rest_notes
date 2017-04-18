@@ -3,6 +3,22 @@ body {
     font-family: 'Ubuntu', sans-serif;  
 }
 
+th.results-id-col {
+    width: 41px;
+}
+
+th.results-body-col {
+    width: 100%;
+}
+
+#notetaker_get {
+    text-align: right;    
+}
+
+#notetaker_delete {
+    text-align: right;    
+}
+
 .edit-note-form {
   display: none;
   padding-top: 15px;

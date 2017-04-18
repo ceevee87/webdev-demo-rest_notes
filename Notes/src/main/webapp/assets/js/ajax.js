@@ -1,5 +1,3 @@
-console.log("Oh hell.");
-
 function createNewRowItemHTML(note) {
     var formAction = 'http://localhost:8080/Note/api/notes/'+note.id
     var editText = "\"" + note.body + "\"";
@@ -103,8 +101,8 @@ $('#notetaker_delete').click(function(event){
         url: 'http://localhost:8080/Note/api/notes', 
         type: 'DELETE', 
         success: function(data) { 
-            console.log(JSON.stringify(data,null,'\t'))
-                $('table.table').find('.note-row').remove();
+            console.log(JSON.stringify(data,null,'\t'));
+            $('table.table').find('.note-row').remove();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             console.log("AJAX DELETE didn't work!!!:" + 
