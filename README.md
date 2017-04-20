@@ -1,9 +1,5 @@
 # webdev-demo-rest_notes
 
-17 April 2017 
-
-<< This repo is under current development and this README is subject to change.>>
-
 ## Overview
 
 This is a basic back-end application with a RESTful JSON interface. The application
@@ -46,13 +42,13 @@ This project demonstrates the following technologies
   - Front end interface to RESTful service using HTML/CSS/JS
     * Bootstrap styling
     * Google fonts
+    * Responsive web page sizing with Bootstrap components
   - Interaction with backend web app via jQuery & AJAX.
   - Maven build and dependency management
     * Deployment and undeployment to Apache Tomacat via Maven
 
 ## Items left to do:
   - improve error handling
-  - add in apache logging using log4j or equivalent
   - JUNIT validation
   - write better installation instructions
 
@@ -61,13 +57,20 @@ This project demonstrates the following technologies
 To build & deploy to Tomcat:
    mvn tomcat7:undeploy clean package tomcat7:deploy
 
-This application is run as a WAR deployed on Apached Tomcat. The URL for get/post operations
-is http://localhost:8080/Note/api/notes/
+This application is run as a WAR deployed on Apached Tomcat. 
+
+## Running the application
+The [default landing page](http://localhost:8080/Notes) for the application is http://localhost:8080/Notes. 
 
 ## Validation
-Validation was done using Postman.
+Validation was done using Postman & curl.
 
 ## IDE
 The java portion of this project was developed in NetBeans. The Web portion
 was developed using VS Code.
+
+The operating system is Ubuntu 16.04 LTS.
+
+No testing was done on Windows based machines or alternate browsers.
+
 
